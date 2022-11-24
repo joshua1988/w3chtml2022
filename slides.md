@@ -70,7 +70,6 @@ layout: big-points
     <li>전략 세우기</li>
     <li>컴포넌트 기반 FE 아키텍처 설계</li>
     <li>적용 결과</li>
-    <li>회고</li>
   </ul>
 </div>
 
@@ -284,54 +283,6 @@ layout: big-points
 <a href="https://martinfowler.com/articles/is-quality-worth-cost.html" target="_blank">“Is High Quality Software Worth the Cost?” - 마틴 파울러</a>
 </div>
 
-
----
-layout: big-points
-title: 지속가능성
-titleRow: true
----
-
-<style>
-/* local stylesheet */
-.quote {
-  line-height: 3rem !important;
-}
-.reference {
-  margin-bottom: 5rem !important;
-}
-</style>
-
-<div class="min-h-1 text-3xl font-bold quote">
-"코드베이스의 수명이 다할 때까지 직면하는 변화가 <br>
-몰고 오는 모든 변경을 안전하게 처리할 수 있다면 <br>
-그 코드 베이스는 지속 가능하다."
-</div>
-<p class="text-right reference">구글 엔지니어는 이렇게 일한다. <small>톰 맨쉬렉 저</small></p>
-
----
-layout: big-points
-title: 지속가능성
-titleRow: true
----
-
-<style>
-/* local stylesheet */
-.quote {
-  line-height: 3rem !important;
-}
-.reference {
-  margin-bottom: 5rem !important;
-}
-</style>
-
-<div class="min-h-1 text-3xl font-bold quote">
-"서비스의 변경 사항을 안전하게 처리할 수 있다면 <br>
-그 코드는 지속 가능하다."
-</div>
-<p class="text-right reference">구글 엔지니어는 이렇게 일한다. <small>톰 맨쉬렉 저</small></p>
-
-<!-- 이후에 발생할 변화에 대해서 기민하게 대응하기 어려운 구조와 코드 품질이었고 무엇보다도 안전하게 변경이 가능해 보이지 않았습니다. 종종 발생하는 버그의 정확한 원인 분석조차 되질 않았습니다. 위 정의에 따르면 지속 가능한 코드 베이스가 아니었던거죠 -->
-
 ---
 layout: big-points
 titleRow: true
@@ -495,20 +446,6 @@ layout: section
 
 ---
 
-# 설계 원칙 5가지
-
-<div v-click>
-
-- 컴포넌트 ↔ API 레이어의 데이터 흐름 단순화
-- Reactivity는 필요한 곳에만
-- 덩어리가 큰 모듈은 컴포넌트보다 클래스로
-- 불필요한 전역 상태는 줄이고 state는 화면과 가장 가깝게 배치
-- 제약이 없는 믹스인은 죄악이다
-
-</div>
-
----
-
 # 설계 원칙 #1 - 데이터 흐름 단순화
 
 <v-clicks>
@@ -521,41 +458,7 @@ layout: section
 
 ---
 
-# 설계 원칙 #2 - Reactivity는 필요한 곳에만
-
-<v-clicks>
-
-- `<template/>`에 표시되어야 하는 속성인가?
-
-```html
-<template>
-  <input type="file" @change="uploadImage" ref="selectedFile">이미지 업로드</input>
-  <p v-if="uploading">업로드 중입니다</p>
-</template>
-
-<script>
-const allowedFileTypes = ['jpg','png','webp'];
-
-export default {
-  data() {
-    return { uploading: false, allowedFileTypes: [...] }
-  },
-  methods: {
-    uploadImage() {
-      this.uploading = true;
-      const file = this.$refs.selectedFile.files[0];
-      allowedFileTypes.some(allowedType => file.type.includes(allowedType));
-    }
-  }
-}
-</script>
-```
-
-</v-clicks>
-
----
-
-# 설계 원칙 #3 - 덩어리가 큰 모듈은 컴포넌트보다 클래스로
+# 설계 원칙 #2 - 덩어리가 큰 모듈은 컴포넌트보다 클래스로
 
 <v-clicks>
 
@@ -603,148 +506,6 @@ export default {
 ```
 
 </div></div>
-
----
-
-<!-- # 설계 원칙 #4 - state는 화면과 가장 가깝게 배치 -->
-# 설계 원칙 #4 - state는 줄이고 data는 화면과 가깝게 배치
-
-- 스토어에 꼭 들어가야 하는 상태인가?
-
-<div class="grid grid-cols-2 gap-x-4">
-
-<div v-click>
-
-<img style="height: 260px;" src="/this-is-data.png">
-
-</div><div v-click>
-
-<img src="/this-must-be-state.png">
-
-</div></div>
-
----
-
-# 설계 원칙 #4 - state는 줄이고 data는 화면과 가깝게 배치
-
-<v-clicks>
-
-- `data`는 항상 사용하는 곳과 가장 가깝게 배치
-
-<img src="/put-state-in-place-1.png">
-
-</v-clicks>
-
----
-
-# 설계 원칙 #4 - state는 줄이고 data는 화면과 가깝게 배치
-
-- `data`는 항상 사용하는 곳과 가장 가깝게 배치
-
-<img src="/put-state-in-place-2.png">
-
----
-
-
-# 설계 원칙 #5 - 제약이 없는 믹스인은 죄악이다
-
-- 제한된 규칙으로 사용해야 효과가 증대되는 [믹스인(mixins)](https://v2.vuejs.org/v2/guide/mixins.html?redirect=true#Basics)
-
-<div class="grid grid-cols-2 gap-x-4 mt-4">
-
-<div v-click>
-
-### 믹스인을 잘못 사용한 사례
-
-```js
-// mixins/audioAdd.js
-export default {
-  mixins: [getAudioIndex],
-  data() {
-    return { audioAddCheck: {valid: false} }
-  },
-  methods: {
-    isAudioBetween() {
-      this.audioIndex = this.getAudioIndex();
-    }
-  }
-}
-```
-
-</div><div v-click>
-
-### 믹스인 중첩은 지양해야함
-
-```js
-// mixins/getAudioIndex.js
-export default {
-  data() {
-    return { audioIndex: -1 }
-  },
-  methods: {
-    getAudioIndex() {
-      // ...
-    }
-  }
-}
-```
-
-</div></div>
-
-<v-clicks>
-
-<Badge type="warn">주의!</Badge> 믹스인은 컴포넌트에 병합되어 들어가는 순서나 로직, 값 덮어쓰기 등 주의할 점이 많음
-
-</v-clicks>
-
----
-
-# 설계 원칙 #5 - 제약이 없는 믹스인은 죄악이다
-
-<!-- NOTE: 컴포지션 API는 Vue 2와 Vue 3 모두 사용할 수 있다고 언급. FEConf 언급할 필요 X -->
-
-- 믹스인 대신 컴포지션 API(리액트 훅)을 사용
-
-<div class="grid grid-cols-2 gap-x-4 mt-4">
-
-<div v-click>
-
-```js
-// composables/useAudio.js
-export function useAudio() {
-  const valid = ref(false);
-
-  const getAudioIndex = () => { ... }
-  const isAudioBetween = () => { ... }
-
-  return { valid, getAudioIndex, isAudioBetween };
-}
-```
-
-</div><div v-click>
-
-```js
-// AudioList.vue
-export default {
-  setup() {
-    const { 
-      valid, getAudioIndex, isAudioBetween 
-    } = useAudio();
-
-    return { valid, getAudioIndex, isAudioBetween };
-  },
-  data() { ... }
-  methods: { ... }
-}
-```
-
-</div></div>
-
-<div v-click>
-
-<Badge type="info">TIP!</Badge> data 속성과 강하게 얽혀 있는 재사용 대상 로직을 모두 컴포지션으로 옮겨도 정상 동작함
-
-</div>
 
 ---
 layout: section
@@ -880,36 +641,6 @@ const store = new Vuex.Store({
 <!-- NOTE: TS에 익숙하지 않은 경우 위와 같이 기능적 변경은 하지 않고 타입 변환만 하는 것을 추천. 만약 그래도 두려운 경우 꼭 주요 테스트 코드를 먼저 작성하고 변환할 것 을 권고합니다 -->
 
 요 다음에 빠른 문제 파악 및 디버깅 & 수정 속도 향상 이라는 슬라이드 넣으면 좋을 듯
-
----
-layout: section
----
-
-# 회고
-
----
-
-# 첫 번째 아쉬웠던 점
-
-- 서비스 전체 구조를 개편하는데 팀 전체가 참여하지 않고 홀로 진행 ➡ 새로운 구조 & 언어에 대한 팀 학습 비용 증가
-
-<img style="height: 340px;" src="/everything.jpeg"/>
-
-<div class="mt-2">
-<a href="https://www.meme-arsenal.com/en/create/meme/7393515" target="_blank">https://www.meme-arsenal.com/en/create/meme/7393515</a>
-</div>
-
----
-
-# 두 번째 아쉬웠던 점
-
-- 코드 베이스에 대한 이해가 높았다면 주요 사용자 액션 기준으로 e2e 테스트 코드라도 작성하고 시작했을 듯
-
-<img style="height: 340px;" src="/testing-pyramid.jpeg"/>
-
-<div class="mt-2">
-<a href="https://semaphoreci.com/blog/testing-pyramid" target="_blank">https://semaphoreci.com/blog/testing-pyramid</a>
-</div>
 
 ---
 layout: big-points
